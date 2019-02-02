@@ -8,120 +8,116 @@
 
 <body>
     <div class="jumbotron">
-    <h1 id='status' class="display-6">Status: <font color="red">Not Checking</font></h1>
-    <div id='numOfMissedBlocks' class="lead"></div>
-    <hr class="my-4">
-    <div id='lastCheck' class="lead">Last Check: N/A</div>
-    <div id='lastMissedBlock' class="lead">Last Missed Block: N/A</div>
-    <div id='lastMissedBlock' class="lead">Last Error: N/A</div>
+        <h1 id='status' class="display-6">Status: 
+            <font color="red">Not Checking</font>
+        </h1>
+        <div id='numOfMissedBlocks' class="lead"></div>
+        <hr class="my-4">
+        <div id='lastCheck' class="lead">Last Check: N/A</div>
+        <div id='lastMissedBlock' class="lead">Last Missed Block: N/A</div>
+        <div id='lastMissedBlock' class="lead">Last Error: N/A</div>
     </div>
-
-<form>
-    <audio id="Alarm">
-        <source type="audio/mpeg"> Your browser does not support the audio element.
-    </audio>
-    <audio id="Error">
-        <source type="audio/mpeg"> Your browser does not support the audio element.
-    </audio>
-    
-    <label for="radmainnet" class="col-form-label">Mainnet</label>
-    <input type="radio" class="col-sm-2" id="radmainnet" name="nodetype" checked onclick="showmainnetnodes()" value="mainnet">
-    <label for="radtestnet" class="col-form-label">Testnet</label>
-    <input type="radio" class="col-sm-2" id="radtestnet" name="nodetype" onclick="showtestnetnodes()" value="testnet">
-    <label for="radcustom" class="col-form-label">Custom</label>
-    <input type="radio" class="col-sm-2" id="radcustom" name="nodetype" onclick="showcustomnode()" value="custom">
-</br>
-</br>
-<div class="form-group row">
-    <label for='mainnetnodes' class="col-sm-3">Node URL:</label>
-    <select class="col-sm-4" style="display:block" id="mainnetnodes">
-        <option value="https://api.lisknode.io">https://api.lisknode.io</option>
-        <option value="https://liskwallet.punkrock.me">https://liskwallet.punkrock.me</option>
-        <option value="https://node01.lisk.io">https://node01.lisk.io</option>
-        <option value="https://node02.lisk.io">https://node02.lisk.io</option>
-        <option value="https://login.lisk.asia">https://login.lisk.asia</option>
-    </select>
-    <select class="col-sm-4" style="display:none" id="testnetnodes">
-        <option value="https://testnet-wallet.lisknode.io">https://testnet-wallet.lisknode.io</option>
-        <option value="https://testnet.lisk.io">https://testnet.lisk.io</option>
-        <option value="http://198.50.245.220:7000">http://198.50.245.220:7000</option>
-        <option value="http://lisk99.mzpool.net:7000">http://lisk99.mzpool.net:7000</option>
-    </select>
-    <input class="col-sm-4" style="display:none" id="customnode" type="text" value="https://api.lisknode.io">
-</div>
-    <div class="form-group row">
-    <label for='delegate' class="col-sm-3 col-form-label">Delegate Name:</label>
-    <input class="col-sm-4" id="delegate" type="text" value="tonyt908">
-    </div>
-
-    <div class="form-group row">
-    <label for='frequency' class="col-sm-3 col-form-label">Frequency (minutes):</label>
-    <input class="col-sm-4" id="frequency" type="number" value="3">
-    </div>
-
-    <div class="form-group row">
-    <label for='missedBlockSound' class="col-sm-3 col-form-label">Missed Block Sound:</label>
-    <select class="col-sm-4" id="missedblocksound">
-            <option value="mp3s/AlarmClock.mp3">Alarm Clock</option>
-            <option value="mp3s/CarAlarm.mp3">Car Alarm</option>
-            <option value="mp3s/Explosion.mp3">Explosion</option>
-            <option value="mp3s/FogHorn.mp3">Fog Horn</option>
-            <option value="mp3s/MachineGun.mp3">Machine Gun</option>
-            <option value="mp3s/PoliceSiren.mp3">Police Siren</option>
-            <option value="mp3s/ShortSiren.mp3">Short Siren</option>
-            <option value="mp3s/Siren1.mp3">Siren 1</option>
-            <option value="mp3s/Siren2.mp3">Siren 2</option>
-            <option value="mp3s/Siren3.mp3">Siren 3</option>
-            <option value="mp3s/Siren4.mp3">Siren 4</option>
-            <option value="mp3s/SmokeDetector.mp3">Smoke Detector</option>
-            <option value="mp3s/BeckyLynch.mp3">Wrestling - Becky Lynch</option>
-            <option value="mp3s/BrockLesnar.mp3">Wrestling - Brock Lesnar</option>
-            <option value="mp3s/Charlotte.mp3">Wrestling - Charlotte</option>
-            <option value="mp3s/Paige.mp3">Wrestling - Paige</option>
-            <option value="mp3s/RandyOrton.mp3">Wrestling - Randy Orton</option>
-            <option value="mp3s/RomanReigns.mp3">Wrestling - Roman Reigns</option>
-            <option value="mp3s/SamiZayn.mp3">Wrestling - Sami Zayn</option>
-            <option value="mp3s/StoneCold.mp3">Wrestling - Stone Cold Steve Austin</option>
-            <option value="mp3s/TheRock.mp3">Wrestling - The Rock</option>
-    </select>
-    <div class="col-sm-1"></div>
-    <button class="btn btn-primary mb-2" onclick="playMissedBlocksSound()" type="button">Test Sound</button>
-    </div>
-
-    <div class="form-group row">
-    <label for='errorBlockSound' class="col-sm-3 col-form-label">Error Sound:</label>
-    <select class="col-sm-4" id="errorblocksound">
-        <option value="mp3s/AlarmClock.mp3">Alarm Clock</option>
-        <option value="mp3s/CarAlarm.mp3">Car Alarm</option>
-        <option value="mp3s/Explosion.mp3">Explosion</option>
-        <option value="mp3s/FogHorn.mp3">Fog Horn</option>
-        <option value="mp3s/MachineGun.mp3">Machine Gun</option>
-        <option value="mp3s/PoliceSiren.mp3">Police Siren</option>
-        <option value="mp3s/ShortSiren.mp3">Short Siren</option>
-        <option value="mp3s/Siren1.mp3">Siren 1</option>
-        <option value="mp3s/Siren2.mp3">Siren 2</option>
-        <option value="mp3s/Siren3.mp3">Siren 3</option>
-        <option value="mp3s/Siren4.mp3">Siren 4</option>
-        <option value="mp3s/SmokeDetector.mp3">Smoke Detector</option>
-        <option value="mp3s/BeckyLynch.mp3">Wrestling - Becky Lynch</option>
-        <option value="mp3s/BrockLesnar.mp3">Wrestling - Brock Lesnar</option>
-        <option value="mp3s/Charlotte.mp3">Wrestling - Charlotte</option>
-        <option value="mp3s/Paige.mp3">Wrestling - Paige</option>
-        <option value="mp3s/RandyOrton.mp3">Wrestling - Randy Orton</option>
-        <option value="mp3s/RomanReigns.mp3">Wrestling - Roman Reigns</option>
-        <option value="mp3s/SamiZayn.mp3">Wrestling - Sami Zayn</option>
-        <option value="mp3s/StoneCold.mp3">Wrestling - Stone Cold Steve Austin</option>
-        <option value="mp3s/TheRock.mp3">Wrestling - The Rock</option>
-    </select>
-    <div class="col-sm-1"></div>
-    <button class="btn btn-primary mb-2" onclick="playErrorSound()" type="button">Test Sound</button>
-    </div>
-    </br>
-    
-    <button class="btn btn-success btn-lg" onclick="start()" type="button">Start Checking</button>
-    <button class="btn btn-danger btn-lg" onclick="stop()" type="button">Stop Checking</button>
-    <button class="btn btn-secondary btn-lg" onclick="stopSounds()" type="button">Stop Audio</button>
-</form>
+    <form>
+        <audio id="Alarm">
+            <source type="audio/mpeg"> Your browser does not support the audio element.
+        </audio>
+        <audio id="Error">
+            <source type="audio/mpeg"> Your browser does not support the audio element.
+        </audio>
+        <label for="radmainnet" class="col-form-label">Mainnet</label>
+        <input type="radio" class="col-sm-2" id="radmainnet" name="nodetype" checked onclick="showmainnetnodes()" value="mainnet">
+        <label for="radtestnet" class="col-form-label">Testnet</label>
+        <input type="radio" class="col-sm-2" id="radtestnet" name="nodetype" onclick="showtestnetnodes()" value="testnet">
+        <label for="radcustom" class="col-form-label">Custom</label>
+        <input type="radio" class="col-sm-2" id="radcustom" name="nodetype" onclick="showcustomnode()" value="custom">
+        </br>
+        </br>
+        <div class="form-group row">
+            <label for='mainnetnodes' class="col-sm-3">Node URL:</label>
+            <select class="col-sm-4" style="display:block" id="mainnetnodes">
+                <option value="https://api.lisknode.io">https://api.lisknode.io</option>
+                <option value="https://liskwallet.punkrock.me">https://liskwallet.punkrock.me</option>
+                <option value="https://node01.lisk.io">https://node01.lisk.io</option>
+                <option value="https://node02.lisk.io">https://node02.lisk.io</option>
+                <option value="https://login.lisk.asia">https://login.lisk.asia</option>
+            </select>
+            <select class="col-sm-4" style="display:none" id="testnetnodes">
+                <option value="https://testnet-wallet.lisknode.io">https://testnet-wallet.lisknode.io</option>
+                <option value="https://testnet.lisk.io">https://testnet.lisk.io</option>
+                <option value="http://198.50.245.220:7000">http://198.50.245.220:7000</option>
+                <option value="http://lisk99.mzpool.net:7000">http://lisk99.mzpool.net:7000</option>
+            </select>
+            <input class="col-sm-4" style="display:none" id="customnode" type="text" value="https://api.lisknode.io">
+        </div>
+        <div class="form-group row">
+            <label for='delegate' class="col-sm-3 col-form-label">Delegate Name:</label>
+            <input class="col-sm-4" id="delegate" type="text" value="tonyt908">
+        </div>
+        <div class="form-group row">
+            <label for='frequency' class="col-sm-3 col-form-label">Frequency (minutes):</label>
+            <input class="col-sm-4" id="frequency" type="number" value="3">
+        </div>
+        <div class="form-group row">
+            <label for='missedBlockSound' class="col-sm-3 col-form-label">Missed Block Sound:</label>
+            <select class="col-sm-4" id="missedblocksound">
+                <option value="mp3s/AlarmClock.mp3">Alarm Clock</option>
+                <option value="mp3s/CarAlarm.mp3">Car Alarm</option>
+                <option value="mp3s/Explosion.mp3">Explosion</option>
+                <option value="mp3s/FogHorn.mp3">Fog Horn</option>
+                <option value="mp3s/MachineGun.mp3">Machine Gun</option>
+                <option value="mp3s/PoliceSiren.mp3">Police Siren</option>
+                <option value="mp3s/ShortSiren.mp3">Short Siren</option>
+                <option value="mp3s/Siren1.mp3">Siren 1</option>
+                <option value="mp3s/Siren2.mp3">Siren 2</option>
+                <option value="mp3s/Siren3.mp3">Siren 3</option>
+                <option value="mp3s/Siren4.mp3">Siren 4</option>
+                <option value="mp3s/SmokeDetector.mp3">Smoke Detector</option>
+                <option value="mp3s/BeckyLynch.mp3">Wrestling - Becky Lynch</option>
+                <option value="mp3s/BrockLesnar.mp3">Wrestling - Brock Lesnar</option>
+                <option value="mp3s/Charlotte.mp3">Wrestling - Charlotte</option>
+                <option value="mp3s/Paige.mp3">Wrestling - Paige</option>
+                <option value="mp3s/RandyOrton.mp3">Wrestling - Randy Orton</option>
+                <option value="mp3s/RomanReigns.mp3">Wrestling - Roman Reigns</option>
+                <option value="mp3s/SamiZayn.mp3">Wrestling - Sami Zayn</option>
+                <option value="mp3s/StoneCold.mp3">Wrestling - Stone Cold Steve Austin</option>
+                <option value="mp3s/TheRock.mp3">Wrestling - The Rock</option>
+            </select>
+            <div class="col-sm-1"></div>
+            <button class="btn btn-primary mb-2" onclick="playMissedBlocksSound()" type="button">Test Sound</button>
+        </div>
+        <div class="form-group row">
+            <label for='errorBlockSound' class="col-sm-3 col-form-label">Error Sound:</label>
+            <select class="col-sm-4" id="errorblocksound">
+                <option value="mp3s/AlarmClock.mp3">Alarm Clock</option>
+                <option value="mp3s/CarAlarm.mp3">Car Alarm</option>
+                <option value="mp3s/Explosion.mp3">Explosion</option>
+                <option value="mp3s/FogHorn.mp3">Fog Horn</option>
+                <option value="mp3s/MachineGun.mp3">Machine Gun</option>
+                <option value="mp3s/PoliceSiren.mp3">Police Siren</option>
+                <option value="mp3s/ShortSiren.mp3">Short Siren</option>
+                <option value="mp3s/Siren1.mp3">Siren 1</option>
+                <option value="mp3s/Siren2.mp3">Siren 2</option>
+                <option value="mp3s/Siren3.mp3">Siren 3</option>
+                <option value="mp3s/Siren4.mp3">Siren 4</option>
+                <option value="mp3s/SmokeDetector.mp3">Smoke Detector</option>
+                <option value="mp3s/BeckyLynch.mp3">Wrestling - Becky Lynch</option>
+                <option value="mp3s/BrockLesnar.mp3">Wrestling - Brock Lesnar</option>
+                <option value="mp3s/Charlotte.mp3">Wrestling - Charlotte</option>
+                <option value="mp3s/Paige.mp3">Wrestling - Paige</option>
+                <option value="mp3s/RandyOrton.mp3">Wrestling - Randy Orton</option>
+                <option value="mp3s/RomanReigns.mp3">Wrestling - Roman Reigns</option>
+                <option value="mp3s/SamiZayn.mp3">Wrestling - Sami Zayn</option>
+                <option value="mp3s/StoneCold.mp3">Wrestling - Stone Cold Steve Austin</option>
+                <option value="mp3s/TheRock.mp3">Wrestling - The Rock</option>
+            </select>
+            <div class="col-sm-1"></div>
+            <button class="btn btn-primary mb-2" onclick="playErrorSound()" type="button">Test Sound</button>
+        </div>
+        </br>
+        <button class="btn btn-success btn-lg" onclick="start()" type="button">Start Checking</button>
+        <button class="btn btn-danger btn-lg" onclick="stop()" type="button">Stop Checking</button>
+        <button class="btn btn-secondary btn-lg" onclick="stopSounds()" type="button">Stop Audio</button>
+    </form>
 </body>
 
 </html>
