@@ -35,6 +35,8 @@ function start() {
     if (frequency >= 1000) //one minute
     {
         disableOptions();
+        preloadErrorSound();
+        preloadMissedBlockSound();
         window.scrollTo(0, 0);
         fetch(node + '/api/delegates?username=' + delegateName)
             .then(res => res.json())
@@ -112,18 +114,28 @@ function processError(e)
     document.getElementById('lastError').innerText = 'Last Error: ' + e + ' at ' + dtformat;
 }
 
-function playMissedBlocksSound() {
-    let source = document.getElementById('Alarm');
-    let sourceselect = document.getElementById('missedblocksound');
-    source.src = sourceselect[sourceselect.selectedIndex].value;
-    alarmAudio.play();
-}
-
-function playErrorSound() {
+function preloadErrorSound()
+{
     let source = document.getElementById('Error');
     let sourceselect = document.getElementById('errorblocksound');
     source.src = sourceselect[sourceselect.selectedIndex].value;
+    sourceselect.preload;
+}
+
+function preloadMissedBlockSound()
+{
+    let source = document.getElementById('Alarm');
+    let sourceselect = document.getElementById('missedblocksound');
+    source.src = sourceselect[sourceselect.selectedIndex].value;
+    sourceselect.preload;
+}
+
+function playErrorSound() {
     errorAudio.play();
+}
+
+function playMissedBlocksSound() {
+    alarmAudio.play();
 }
 
 function stopSounds() {
