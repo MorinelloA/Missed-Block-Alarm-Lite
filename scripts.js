@@ -130,6 +130,16 @@ function preloadMissedBlockSound()
     sourceselect.preload;
 }
 
+function testErrorSound() {
+    preloadErrorSound();
+    errorAudio.play();
+}
+
+function testMissedBlocksSound() {
+    preloadMissedBlockSound();
+    alarmAudio.play();
+}
+
 function playErrorSound() {
     errorAudio.play();
 }
