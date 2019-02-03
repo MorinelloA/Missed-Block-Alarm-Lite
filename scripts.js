@@ -19,7 +19,7 @@ function stop() {
 
 function start() {
     missedBlocks = 0;
-    frequency = document.getElementById('frequency').value * 1000;
+    frequency = document.getElementById('frequency').value * 1000 * 60;
     delegateName = document.getElementById('delegate').value;
 
     if (document.getElementById('radmainnet').checked) {
@@ -32,7 +32,7 @@ function start() {
         node = document.getElementById('customnode').value;
     }
 
-    if (frequency >= 1000) //one minute
+    if (frequency >= 1000 * 60) //one minute
     {
         disableOptions();
         preloadErrorSound();
