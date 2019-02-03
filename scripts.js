@@ -19,7 +19,7 @@ function stop() {
 
 function start() {
     missedBlocks = 0;
-    frequency = document.getElementById('frequency').value * 1000 * 60;
+    frequency = document.getElementById('frequency').value * 1000;
     delegateName = document.getElementById('delegate').value;
 
     if (document.getElementById('radmainnet').checked) {
@@ -32,14 +32,14 @@ function start() {
         node = document.getElementById('customnode').value;
     }
 
-    if (frequency >= 1000 * 60) //one minute
+    if (frequency >= 1000) //one minute
     {
         disableOptions();
-        document.getElementById('status').innerHTML = 'Status: <font color="green">Checking</font>';
         window.scrollTo(0, 0);
         fetch(node + '/api/delegates?username=' + delegateName)
             .then(res => res.json())
             .then((out) => {
+                document.getElementById('status').innerHTML = 'Status: <font color="green">Checking</font>';
                 missedBlocks = out.data[0].missedBlocks;
                 document.getElementById('numOfMissedBlocks').innerText = 'Number of Missed Blocks for ' + delegateName + ': ' + missedBlocks;
                 interval = setInterval(function() {
@@ -83,29 +83,33 @@ function checkMissedBlocks() {
                     document.getElementById('lastCheck').innerText = 'Last Check: ' + dtformat;
                 }
             } catch (e) {
-                playErrorSound();
-                let dt = new Date();
-
-                let minutes;
-                if (dt.getMinutes() > 9) {
-                    minutes = dt.getMinutes();
-                } else {
-                    minutes = '0' + dt.getMinutes();
-                }
-
-                let seconds;
-                if (dt.getSeconds() > 9) {
-                    seconds = dt.getSeconds();
-                } else {
-                    seconds = '0' + dt.getSeconds();
-                }
-
-                let dtformat = dt.getDate() + '-' + (dt.getMonth() + 1) + '-' + dt.getFullYear() + ' ' + dt.getHours() + ':' + minutes + ':' + seconds;
-
-                document.getElementById('lastError').innerText = 'Last Error: ' + e + ' at ' + dtformat;
+                processError(e);
             }
-        });
+        }).catch(e => processError(e));
+}
 
+function processError(e)
+{
+    playErrorSound();
+    let dt = new Date();
+
+    let minutes;
+    if (dt.getMinutes() > 9) {
+        minutes = dt.getMinutes();
+    } else {
+        minutes = '0' + dt.getMinutes();
+    }
+
+    let seconds;
+    if (dt.getSeconds() > 9) {
+        seconds = dt.getSeconds();
+    } else {
+        seconds = '0' + dt.getSeconds();
+    }
+
+    let dtformat = dt.getDate() + '-' + (dt.getMonth() + 1) + '-' + dt.getFullYear() + ' ' + dt.getHours() + ':' + minutes + ':' + seconds;
+
+    document.getElementById('lastError').innerText = 'Last Error: ' + e + ' at ' + dtformat;
 }
 
 function playMissedBlocksSound() {
