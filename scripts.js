@@ -5,6 +5,8 @@ var frequency;
 var delegateName;
 var node;
 var interval;
+var playError;
+var playMissed;
 
 window.onload = function() {
     errorAudio = document.getElementById("Error");
@@ -118,34 +120,62 @@ function preloadErrorSound()
 {
     let source = document.getElementById('Error');
     let sourceselect = document.getElementById('errorblocksound');
-    source.src = sourceselect[sourceselect.selectedIndex].value;
-    sourceselect.preload;
+    if(sourceselect[sourceselect.selectedIndex].value !== 'none')
+    {
+        source.src = sourceselect[sourceselect.selectedIndex].value;
+        sourceselect.preload;
+        playError = true;
+    }
+    else
+    {
+        playError = false;
+    }
 }
 
 function preloadMissedBlockSound()
 {
     let source = document.getElementById('Alarm');
     let sourceselect = document.getElementById('missedblocksound');
-    source.src = sourceselect[sourceselect.selectedIndex].value;
-    sourceselect.preload;
+    if(sourceselect[sourceselect.selectedIndex].value !== 'none')
+    {
+        source.src = sourceselect[sourceselect.selectedIndex].value;
+        sourceselect.preload;
+        playMissed = true;
+    }
+    else
+    {
+        playMissed = false;
+    }
 }
 
 function testErrorSound() {
     preloadErrorSound();
-    errorAudio.play();
+    if(playError)
+    {
+        errorAudio.play();
+    }
 }
 
 function testMissedBlocksSound() {
     preloadMissedBlockSound();
-    alarmAudio.play();
+    if(playMissed)
+    {
+        alarmAudio.play();
+    }
 }
 
 function playErrorSound() {
-    errorAudio.play();
+    if(playError)
+    {
+        errorAudio.play();
+    }
 }
 
 function playMissedBlocksSound() {
-    alarmAudio.play();
+    if(playMissed)
+    {
+        alarmAudio.play();
+    }
 }
 
 function stopSounds() {
