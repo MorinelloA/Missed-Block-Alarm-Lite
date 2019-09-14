@@ -1,6 +1,7 @@
 var errorAudio;
 var alarmAudio;
 var missedBlocks;
+var forgedBlocks;
 var frequency;
 var delegateName;
 var node;
@@ -13,6 +14,53 @@ window.onload = function() {
     alarmAudio = document.getElementById("Alarm");
 };
 
+function isInTimeframe()
+{
+    let startTime = document.getElementById("starttime").value;
+    let endTime = document.getElementById("endtime").value;
+    let currentDate = new Date() ;  
+
+    let startDate = new Date(currentDate.getTime());
+    startDate.setHours(startTime.split(":")[0]);
+    startDate.setMinutes(startTime.split(":")[1]);
+
+    let endDate = new Date(currentDate.getTime());
+    endDate.setHours(endTime.split(":")[0]);
+    endDate.setMinutes(endTime.split(":")[1]);
+
+    if(startDate > endDate)
+    {
+        endDate.setDate(endDate.getDate() + 1);
+        if(startDate <= currentDate && endDate >= currentDate)
+        {
+            return true;
+        }
+        else
+        {
+            endDate.setDate(endDate.getDate() - 1);
+            startDate.setDate(startDate.getDate() - 1);
+            return (startDate <= currentDate && endDate >= currentDate);
+        }
+    }
+    else
+    {
+        return( startDate <= currentDate && endDate >= currentDate);
+    }
+}
+
+function checkalarmtime() {
+    let timeselect = document.getElementById('alarmtime');
+    let time = timeselect[timeselect.selectedIndex].value;
+    if(time === 'always')
+    {
+        document.getElementById("timeframe").style.display = 'none';
+    }
+    else
+    {
+        document.getElementById("timeframe").style.display = 'block';
+    }
+}
+
 function stop() {
     document.getElementById('status').innerHTML = 'Status: <font color="red">Not Checking</font>';
     enableOptions();
@@ -21,16 +69,24 @@ function stop() {
 
 function start() {
     missedBlocks = 0;
+    forgedBlocks = 0;
     frequency = document.getElementById('frequency').value * 1000 * 60;
     delegateName = document.getElementById('delegate').value;
 
-    if (document.getElementById('radmainnet').checked) {
+    let nodetypeselect = document.getElementById('nodes');
+    let nodetype = nodetypeselect[nodetypeselect.selectedIndex].value;
+    if(nodetype === 'mainnet')
+    {
         let nodeselect = document.getElementById('mainnetnodes');
         node = nodeselect[nodeselect.selectedIndex].value;
-    } else if (document.getElementById('radtestnet').checked) {
+    }
+    else if(nodetype === 'testnet')
+    {
         let nodeselect = document.getElementById('testnetnodes');
         node = nodeselect[nodeselect.selectedIndex].value;
-    } else if (document.getElementById('radcustom').checked) {
+    }
+    else
+    {
         node = document.getElementById('customnode').value;
     }
 
@@ -165,16 +221,26 @@ function testMissedBlocksSound() {
 }
 
 function playErrorSound() {
-    if(playError)
+    let timeselect = document.getElementById('alarmtime');
+    let time = timeselect[timeselect.selectedIndex].value;
+    if(time === 'always' || isInTimeframe())
     {
-        errorAudio.play();
+        if(playError)
+        {
+            errorAudio.play();
+        }
     }
 }
 
 function playMissedBlocksSound() {
-    if(playMissed)
+    let timeselect = document.getElementById('alarmtime');
+    let time = timeselect[timeselect.selectedIndex].value;
+    if(time === 'always' || isInTimeframe())
     {
-        alarmAudio.play();
+        if(playMissed)
+        {
+            alarmAudio.play();
+        }
     }
 }
 
@@ -183,6 +249,23 @@ function stopSounds() {
     alarmAudio.currentTime = 0;
     errorAudio.pause();
     errorAudio.currentTime = 0;
+}
+
+function changenodes() {
+    let nodeselect = document.getElementById('nodes');
+    let nodetype = nodeselect[nodeselect.selectedIndex].value;
+    if(nodetype === 'mainnet')
+    {
+        showmainnetnodes();
+    }
+    else if(nodetype === 'testnet')
+    {
+        showtestnetnodes();
+    }
+    else
+    {
+        showcustomnode();
+    }
 }
 
 function showmainnetnodes() {
@@ -204,9 +287,10 @@ function showcustomnode() {
 }
 
 function disableOptions() {
-    document.getElementById('radmainnet').disabled = true;
-    document.getElementById('radtestnet').disabled = true;
-    document.getElementById('radcustom').disabled = true;
+    document.getElementById('alarmtime').disabled = true;
+    document.getElementById('starttime').disabled = true;
+    document.getElementById('endtime').disabled = true;
+    document.getElementById('nodes').disabled = true;
     document.getElementById('mainnetnodes').disabled = true;
     document.getElementById('testnetnodes').disabled = true;
     document.getElementById('customnode').disabled = true;
@@ -217,9 +301,10 @@ function disableOptions() {
 }
 
 function enableOptions() {
-    document.getElementById('radmainnet').disabled = false;
-    document.getElementById('radtestnet').disabled = false;
-    document.getElementById('radcustom').disabled = false;
+    document.getElementById('alarmtime').disabled = false;
+    document.getElementById('starttime').disabled = false;
+    document.getElementById('endtime').disabled = false;
+    document.getElementById('nodes').disabled = false;
     document.getElementById('mainnetnodes').disabled = false;
     document.getElementById('testnetnodes').disabled = false;
     document.getElementById('customnode').disabled = false;
