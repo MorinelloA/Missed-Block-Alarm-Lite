@@ -2,6 +2,8 @@ var errorAudio;
 var alarmAudio;
 var missedBlocks;
 var forgedBlocks;
+var consecutiveMissedBlocks = 0;
+var consecutiveMin;
 var frequency;
 var delegateName;
 var node;
@@ -71,6 +73,7 @@ function start() {
     missedBlocks = 0;
     forgedBlocks = 0;
     frequency = document.getElementById('frequency').value * 1000 * 60;
+    consecutiveMin = document.getElementById('consecutive').value;
     delegateName = document.getElementById('delegate').value;
 
     let nodetypeselect = document.getElementById('nodes');
@@ -101,6 +104,7 @@ function start() {
             .then((out) => {
                 document.getElementById('status').innerHTML = 'Status: <font color="green">Checking</font>';
                 missedBlocks = out.data[0].missedBlocks;
+                forgedBlocks = out.data[0].producedBlocks;
                 document.getElementById('numOfMissedBlocks').innerText = 'Number of Missed Blocks for ' + delegateName + ': ' + missedBlocks;
                 interval = setInterval(function() {
                     checkMissedBlocks();
@@ -135,12 +139,25 @@ function checkMissedBlocks() {
 
                 let dtformat = dt.getDate() + '-' + (dt.getMonth() + 1) + '-' + dt.getFullYear() + ' ' + dt.getHours() + ':' + minutes + ':' + seconds;
                 if (missedBlocks2 > missedBlocks) {
-                    playMissedBlocksSound();
+                    //playMissedBlocksSound();
+                    consecutiveMissedBlocks += (missedBlocks2 - missedBlocks);
                     missedBlocks = missedBlocks2;
                     document.getElementById('numOfMissedBlocks').innerText = 'Number of Missed Blocks for ' + delegateName + ': ' + missedBlocks;
                     document.getElementById('lastMissedBlock').innerText = 'Last Missed Block: ' + dtformat;
                 } else {
                     document.getElementById('lastCheck').innerText = 'Last Check: ' + dtformat;
+                }
+
+                let forgedBlocks2 = body.data[0].producedBlocks;
+                if (forgedBlocks2 > forgedBlocks)
+                {
+                    consecutiveMissedBlocks = 0;
+                    forgedBlocks = forgedBlocks2;
+                }
+
+                if(consecutiveMissedBlocks >= consecutiveMin)
+                {
+                    playMissedBlocksSound();
                 }
             } catch (e) {
                 processError(e);
@@ -295,6 +312,7 @@ function disableOptions() {
     document.getElementById('testnetnodes').disabled = true;
     document.getElementById('customnode').disabled = true;
     document.getElementById('frequency').disabled = true;
+    document.getElementById('consecutive').disabled = true;
     document.getElementById('errorblocksound').disabled = true;
     document.getElementById('missedblocksound').disabled = true;
     document.getElementById('delegate').disabled = true;
@@ -309,6 +327,7 @@ function enableOptions() {
     document.getElementById('testnetnodes').disabled = false;
     document.getElementById('customnode').disabled = false;
     document.getElementById('frequency').disabled = false;
+    document.getElementById('consecutive').disabled = false;
     document.getElementById('errorblocksound').disabled = false;
     document.getElementById('missedblocksound').disabled = false;
     document.getElementById('delegate').disabled = false;
