@@ -2,4 +2,4 @@
 
 Lightweight, browser-based, Missed Block Alarm for Lisk Delegates
 
-Hosted at http://tools.tonyt908.com/missedblockalarm/index.html
+Hosted at https://sidechainsolutions.io/content/tools/missed-block-alarm-lite/
