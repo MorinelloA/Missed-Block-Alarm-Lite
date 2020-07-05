@@ -1,4 +1,4 @@
-# Lisk Missed-Block-Alarm-Lite
+# Lisk Missed Block Alarm Lite
 
 Lightweight, browser-based, Missed Block Alarm for Lisk Delegates
 
