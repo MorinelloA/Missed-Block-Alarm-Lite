@@ -152,6 +152,7 @@ function checkMissedBlocks() {
                 if (forgedBlocks2 > forgedBlocks)
                 {
                     consecutiveMissedBlocks = 0;
+                    missedBlocks = body.data[0].missedBlocks;
                     forgedBlocks = forgedBlocks2;
                 }
 
